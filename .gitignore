@@ -1,3 +1,5 @@
-# virtual environment and test files
+# virtual environment and test files and cache
 /.venv
 /tests
+# pycache folder
+/app/__pycache__
