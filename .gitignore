@@ -1,3 +1,4 @@
 # virtual environment and test files and cache
 /.venv
 /tests
+/app/__pycache__/
