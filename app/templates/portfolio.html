@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{name}}'s Portfolio</title>
+</head>
+<body>
+    <ul id="navigation">
+    {% for item in navigation %}
+        {{ item|safe }}
+    {% endfor %}
+    </ul>
+</body>
+</html>

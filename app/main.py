@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, request, render_template, make_response, session, flash
-from app.db import new_user, get_user
+from app.db import new_user, get_user, get_nav
 app = Flask(__name__)
 
 @app.route('/')
@@ -27,3 +27,8 @@ def login():
                 return render_template('login.html')
     else:
         return render_template('login.html')
+
+@app.route('/portfolio/<name>')
+def portfolio(name):
+    nav = get_nav(name)
+    return render_template('portfolio.html', navigation = nav, name = name)
