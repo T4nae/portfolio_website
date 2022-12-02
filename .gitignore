@@ -2,4 +2,4 @@
 /.venv
 /tests
 /app/__pycache__/ 
-*.db
+/DB
