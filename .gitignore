@@ -1,4 +1,5 @@
-# virtual environment and test files and cache
+# virtual environment and test files, cache and database
 /.venv
 /tests
-/app/__pycache__/
+/app/__pycache__/ 
+*.db
