@@ -4,10 +4,23 @@
     <title>{{name}}'s Portfolio</title>
 </head>
 <body>
+    {% if username %}
+        <h1>you are logged in as {{username}}</h1>
+        <a href="{{ url_for('logout', name = username) }}">Logout</a><br>
+    {% endif %}
     <ul id="navigation">
     {% for item in navigation %}
         {{ item|safe }}
     {% endfor %}
     </ul>
+    {% if edit %}
+        <form action="{{ url_for('edit', name = username) }}" method="post">
+            <input type="text" name="text" value="text"><br>
+            <input type="text" name="css" value="css"><br>
+            <input type="submit" value="Submit">
+        </form>
+    {% elif username %}
+        <a href="{{ url_for('edit', name = username) }}">Edit Page</a><br>
+    {% endif %}
 </body>
 </html>
