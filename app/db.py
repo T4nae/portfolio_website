@@ -1,21 +1,21 @@
 import sqlite3 as sql
 
 def create_user_db():
-    con = sql.connect('DB/user.db')
+    con = sql.connect('DB/users.db')
     cur = con.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS users (username TEXT, id TEXT, password TEXT)")
     con.commit()
     con.close()
 
 def new_user(username, id, password):
-    con = sql.connect('DB/user.db')
+    con = sql.connect('DB/users.db')
     cur = con.cursor()
     cur.execute("INSERT INTO users VALUES (?,?,?)", (username, id, password))
     con.commit()
     con.close()
 
 def get_user(id, password):
-    con = sql.connect('DB/user.db')
+    con = sql.connect('DB/users.db')
     cur = con.cursor()
     cur.execute("SELECT * FROM users")
     rows = cur.fetchall()
@@ -25,10 +25,18 @@ def get_user(id, password):
             return True
     return False
 
+def get_user_name(id):
+    con = sql.connect('DB/users.db')
+    cur = con.cursor()
+    cur.execute("SELECT * FROM users WHERE id = ?", (id,))
+    rows = cur.fetchall()
+    con.close()
+    return rows[0][0]
+
 def create_navigation_db():
     con = sql.connect('DB/navigation.db')
     cur = con.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS navigation (username TEXT nav TEXT)")
+    cur.execute("CREATE TABLE IF NOT EXISTS navigation (username TEXT, nav TEXT)")
     con.commit()
     con.close()
 
@@ -42,7 +50,10 @@ def new_nav(username, nav):
 def get_nav(username):
     con = sql.connect('DB/navigation.db')
     cur = con.cursor()
-    cur.execute("SELECT * FROM navigation WHERE username = ?", (username,))
+    cur.execute("SELECT nav FROM navigation WHERE username = ?", (username,))
     rows = cur.fetchall()
     con.close()
-    return rows
+    r = []
+    for row in rows:
+        r.append(row[0])
+    return r
