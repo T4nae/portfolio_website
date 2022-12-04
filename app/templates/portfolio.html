@@ -1,26 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>{{name}}'s Portfolio</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .header {
+            background-color: #f1f1f1;
+            padding: 30px;
+            text-align: center;
+        }
+
+        #navbar {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        #navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        #navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        #navbar a.active {
+            background-color: #04AA6D;
+            color: white;
+        }
+
+        .content {
+            padding: 16px;
+        }
+
+        .sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .sticky+.content {
+            padding-top: 60px;
+        }
+
+        .dropdown-content {
+            display : none
+        }
+
+        .dropdown:hover .dropdown-content {
+            display : block
+        }
+
+    
+    </style>
+    </style>
 </head>
+
 <body>
-    {% if username %}
-        <h1>you are logged in as {{username}}</h1>
-        <a href="{{ url_for('logout', name = username) }}">Logout</a><br>
-    {% endif %}
-    <ul id="navigation">
-    {% for item in navigation %}
+    <div id="navbar">
+        <a href="{{ url_for('home') }}">Home</a>
+        {% if username %}
+        <a href="{{ url_for('logout', name = username) }}">Logout</a>
+            {% if edit %}
+            <div class="dropdown">
+                <a href="{{ url_for('edit', name = username) }}" class="dropbtn">Edit page</button>
+                <div class="dropdown-content">
+                    <a onclick="getVal('text')">Add Text</a>
+                    <a onclick="getVal('image')">Add Image</a>
+                    <a onclick="getVal('del')">Remove Text</a>
+                    <a onclick="getVal('delimg')">Remove Image</a>
+                </div>
+            </div>
+            {% else %}
+            <a href="{{ url_for('edit', name = username) }}">Edit Page</a>
+            {% endif %}
+        {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+        {% endif %}
+    </div>
+
+    <div class="content">
+
+        {% for item in navigation %}
         {{ item|safe }}
-    {% endfor %}
-    </ul>
-    {% if edit %}
-        <form action="{{ url_for('edit', name = username) }}" method="post">
-            <input type="text" name="text" value="text"><br>
-            <input type="text" name="css" value="css"><br>
-            <input type="submit" value="Submit">
-        </form>
-    {% elif username %}
-        <a href="{{ url_for('edit', name = username) }}">Edit Page</a><br>
-    {% endif %}
+        {% endfor %}
+
+    </div>
+
+    <script>
+        window.onscroll = function () { myFunction() };
+
+        var navbar = document.getElementById("navbar");
+        var sticky = navbar.offsetTop;
+        var nav = []
+
+        function myFunction() {
+            if (window.pageYOffset >= sticky) {
+                navbar.classList.add("sticky")
+            } else {
+                navbar.classList.remove("sticky");
+            }
+        }
+
+        function getVal(type) {
+            z = type
+            if (z == 'text' || z == 'del') {
+            x = prompt("Enter Element:")
+            } else if (z == 'image' || z == 'delimg') {
+            temp = prompt("Enter Image URL:")
+            x = ''
+                for (var i = 0; i < temp.length; i++) {
+                    if (temp[i] == '/') {
+                        x += '^'
+                    } else {
+                        x += temp[i]
+                    }
+                }
+            }
+
+            if (z == 'text' || z == 'image') {
+                y = prompt("Enter CSS:")
+            } else {
+                y = ''
+            }
+            n = '{{username}}'
+            const request = new XMLHttpRequest();
+            if (z == 'text') {
+                request.open('POST', `/process_info/${JSON.stringify( [x, y, z, n] )}`);
+            } else if (z == 'del') {
+                request.open('POST', `/process_info/${JSON.stringify( [x, y, z, n] )}`);
+            } else if (z == 'image' || z == 'delimg') {
+                request.open('POST', `/process_info/${JSON.stringify( [x, y, z, n] )}`);
+            }
+            request.send();
+        }
+
+        function delay (URL) {
+            setTimeout( function() { window.location = URL }, 1000 );
+        }
+    </script>
+
+    <p>  </p>
+
 </body>
+
 </html>

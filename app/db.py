@@ -57,3 +57,15 @@ def get_nav(username):
     for row in rows:
         r.append(row[0])
     return r
+
+def del_nav(username, nav):
+    con = sql.connect('DB/navigation.db')
+    cur = con.cursor()
+    for i in get_nav(username):
+        if i.split('>')[1].split('<')[0] == nav:
+            cur.execute("DELETE FROM navigation WHERE username = ? AND nav = ?", (username, i))
+            break
+        elif i.split('"')[1] == nav:
+            cur.execute("DELETE FROM navigation WHERE username = ? AND nav = ?", (username, i))
+            break
+    con.commit()
