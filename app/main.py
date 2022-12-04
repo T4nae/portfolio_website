@@ -10,7 +10,15 @@ def temp():
 
 @app.route('/home')
 def home():
-    return render_template('temp.html')
+    return render_template('home.html')
+
+@app.route('/search', methods=['POST', 'GET'])
+def search():
+    if request.method == 'POST':
+      user = request.form['nm']
+      return redirect(url_for('portfolio', name = user))       
+    else:
+        return '404 ERROR'
 
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
@@ -45,7 +53,6 @@ def portfolio(name):
     if 'url' in session:
         session.pop('url', None)
     session['url'] = url_for('portfolio', name = name)
-    print(session['url'])
     nav = get_nav(name)
     if 'username' in session and session['username'] == name:
         username = session['username']
@@ -60,17 +67,17 @@ def edit(name, refresh = False):
     if 'url' in session:
         session.pop('url', None)
     session['url'] = url_for('edit', name = name)
-    print(session['url'])
     if 'username' in session and session['username'] == name:
             nav = get_nav(name)
             return render_template('portfolio.html', navigation = nav, name = name, username = session['username'], edit= True)
     
-    return redirect(session['url'])
+    return redirect(url_for('home'))
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)
-    return redirect(session['url'])
+    name = session['username']
+    session.clear()
+    return redirect(url_for('portfolio', name = name))
 
 @app.route('/process_info/<string:userinfo>', methods = ['POST'])
 def process_info(userinfo):
