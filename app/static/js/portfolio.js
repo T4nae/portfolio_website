@@ -6,7 +6,7 @@ function stickymenu(navbar, sticky) {
     }
 }
 
-function getVal(type) {
+function getVal(type, name) {
     z = type
     if (z == 'text' || z == 'del') {
     x = prompt("Enter Element:")
@@ -27,7 +27,7 @@ function getVal(type) {
     } else {
         y = ''
     }
-    n = '{{username}}'
+    n = name
     const request = new XMLHttpRequest();
     if (z == 'text') {
         request.open('POST', `/process_info/${JSON.stringify( [x, y, z, n] )}`);
