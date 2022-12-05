@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>About Us</title>
+	<link rel= "stylesheet" type = "text/css"
+         href = "{{ url_for('static', filename = 'css/about.css') }}" ></link>
+</head>	
+<body>
+	<div class="section">
+		<div class="container">
+			<div class="content-section">
+				<div class="title">
+					<h1>About Us</h1>
+				</div>
+				<div class="content">
+					<div class="grid-container">
+						<div class="grid-items">
+						<div class="button">
+							<a href="https://github.com/Rneet">Ravneet</a>
+						</div>
+						</div>
+						<div class="grid-items">
+						<div class="button">
+							<a href="https://github.com/T4nae">Tanyam</a>
+						</div>
+						</div>
+					</div>
+					<div class="image-section">
+						<object data="{{ url_for('static', filename= 'SVG/Letterpress logo.svg') }}" width="300" height="300"> </object>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+
+</body>
+</html>

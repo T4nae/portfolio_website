@@ -110,3 +110,7 @@ def process_info(userinfo):
         #sleep(1)
         return redirect(session['url'])
     return redirect(session['url'])
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
